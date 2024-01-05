@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "root",
+    "password": "Ashish@123",
+    "database": "node_again",
+    "host": "localhost",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "root",
+    "password": "Ashish@123",
+    "database": "node_again",
+    "host": "localhost",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password":"Ashish@123",
+    "database": "node_again",
+    "host": "localhost",
+    "dialect": "mysql"
+  }
+}
