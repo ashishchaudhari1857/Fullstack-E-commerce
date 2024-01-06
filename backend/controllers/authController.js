@@ -31,7 +31,7 @@ const register = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
       httpOnly: true,
     });
-    res.status(201).json({ status: "success", user, role, token, profile });
+    res.status(201).json({ status: "success", user, role, token,profile });
   } catch (error) {
     if (error.code === "23505") {
       return res
@@ -45,7 +45,7 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
   const { email, password } = req.body;
-
+       console.log("here")
   try {
     const user = await User.findOne({ where: { email } });
 

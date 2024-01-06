@@ -1,9 +1,6 @@
 const multer =require('multer')
 
   // files  first come here for  storage then tranfer to cloudnary
-
-
-
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
       cb(null, '/public/uploads')

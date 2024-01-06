@@ -3,6 +3,8 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser')
 const dotenv=require('dotenv')
 const sequelize = require('./config/dbconfig');
+/// route protectors
+const { userCheck, adminCheck } = require('./middlewares/auth');
 
 
 const ProductRoute = require('./routes/product');
@@ -21,9 +23,7 @@ const  Cart =require('./models/cart')
 const app = express();
 app.use(cookieParser());
 dotenv.config();
-// const corsOption = {
-//   origin: "http://localhost:8081"
-// };
+
 
 // Middlewares
 app.use(cors());
@@ -31,10 +31,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
-app.use('/api/product', ProductRoute);
-app.use('/api/reviews', ReviewRoute);
-app.use('/api/auth', AuthRoute);
-app.use('/api/cart', CartRoute);
+app.use('/api/product', adminCheck , ProductRoute);
+app.use('/api/reviews', userCheck  , ReviewRoute);
+app.use('/api/auth',  AuthRoute);
+app.use('/api/cart', userCheck ,CartRoute);
 
 // Define associations
 Product.hasMany(Review);

@@ -14,6 +14,7 @@ const createCart = async (req, res) => {
 
     if (user) {
       cart = await user.createCart();
+      
     } else {
       return res.status(400).json({
         status: "failed",
