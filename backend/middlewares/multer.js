@@ -1,14 +1,16 @@
-const multer =require('multer')
+const multer = require('multer');
 
-  // files  first come here for  storage then tranfer to cloudnary
+// Files first come here for storage then transfer to Cloudinary
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, '/public/uploads')
-    },
-    filename: function (req, file, cb) {
-      const uniqueSuffix = Date.now()  + 'Ashish' + Math.round(Math.random() * 1E9)
-      cb(null, file.fieldname + '-' + uniqueSuffix)
-    }
-  })
-  
-  const upload = multer({ storage: storage })
+  destination: function (req, file, cb) {
+    cb(null, 'public/uploads'); 
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + 'Ashish' + Math.round(Math.random() * 1E9);
+    cb(null, file.fieldname + '-' + uniqueSuffix);
+  }
+});
+
+const upload = multer({ storage: storage });
+
+module.exports = { upload };

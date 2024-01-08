@@ -7,13 +7,13 @@ const Sequelize=require('sequelize')
 
 const createCart = async (req, res) => {
   try {
-    const { userId } = req.body;
+    const { userId  , username} = req.body;
     let cart;
 
     const user = await User.findByPk(userId);
 
     if (user) {
-      cart = await user.createCart();
+      cart = await user.createCart( {username:username});
       
     } else {
       return res.status(400).json({
@@ -41,12 +41,13 @@ const createCart = async (req, res) => {
 const addToCart = async (req, res) => {
   try {
     const { cartId, productId, quantity } = req.body;
+    console.log(cartId)
     const cart = await Cart.findByPk(cartId);
     const product = await Product.findByPk(productId);
 
     if (!cart) return res.status(404).json({ status: 'failed', message: 'Cart not found' });
     if (!product) return res.status(404).json({ status: 'failed', message: 'Product not found' });
-
+            
     const existingCartItem = await cart.getProducts({ where: { id: product.id } });
     if (existingCartItem.length > 0) {
       const updatedCartItem = existingCartItem[0].CartProducts;
@@ -59,7 +60,7 @@ const addToCart = async (req, res) => {
       });
     } else {
       const cartItem = await cart.addProduct(product, { through: { quantity: parseInt(quantity) || 1 } });
-
+ 
       return res.status(201).json({
         status: 'success',
         message: `Added ${product.name} to the cart`,
@@ -77,7 +78,7 @@ const addToCart = async (req, res) => {
 };
 
   const remove_from_cart =async(req,res)=>{
-    const {cartId , productId}=req.body;
+    const {cartId , productId}=req.params;
   
     try {
       const cart = await Cart.findByPk(cartId);
@@ -119,7 +120,7 @@ const addToCart = async (req, res) => {
     
   }
    const getCart= async(req ,res)=>{
-       const  {cartId} =req.body;
+       const  {cartId} =req.params;
         try {
           const cart = await Cart.findByPk(cartId);
           if (!cart) return res.status(404).json({ status: 'failed', message: 'Cart not found' })

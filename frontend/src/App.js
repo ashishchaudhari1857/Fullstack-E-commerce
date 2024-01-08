@@ -1,14 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
+import UserProfileUpdate from './components/Profile';
 
 function App() {
  
-
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
-
-  
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -63,7 +60,9 @@ function App() {
           <button type="submit">Login</button>
         </form>
       </div>
+      <UserProfileUpdate></UserProfileUpdate>
     </div>
+    
   );
 }
 

@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
 const userCheck = (req, res, next) => {
   const token = req.cookies.jwt;
@@ -6,8 +6,7 @@ const userCheck = (req, res, next) => {
   if (!token) {
     return res.status(402).json({ message: "Please login" });
   }
-s
-  jwt.verify(token, 'Ashish', (err, decodedToken) => {
+  jwt.verify(token, "Ashish", (err, decodedToken) => {
     if (err) {
       return res.status(402).json({ message: "Please login" });
     }
@@ -24,9 +23,9 @@ const adminCheck = (req, res, next) => {
     return res.status(402).json({ message: "Please login" });
   }
 
-  jwt.verify(token, 'Ashish', (err, decodedToken) => {
+  jwt.verify(token, "Ashish", (err, decodedToken) => {
     if (err) {
-      return res.status(402).json({ message: "Please login" });
+      return res.status(402).json({ message: "Please login  as Admin" });
     }
 
     req.decodedToken = decodedToken; // Store decoded token in request for later use
