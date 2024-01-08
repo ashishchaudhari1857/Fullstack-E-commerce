@@ -10,7 +10,8 @@ const  Profile = sequelize.define('profile' ,{
     phone: { type : Sequelize.BIGINT} ,
     address: { type : Sequelize.TEXT} ,
     gender: { type : Sequelize.ENUM("male", "female")} ,
-    dob: { type : Sequelize.DATEONLY}
+    dob: { type : Sequelize.DATEONLY},
+    ImgUrl:{type:Sequelize.TEXT}
     })
     
     module.exports=Profile;

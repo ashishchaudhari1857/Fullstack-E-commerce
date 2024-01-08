@@ -1,28 +1,28 @@
 import React, { useState } from 'react';
 
-const Product = () => {
+const UserProfileUpdate = () => {
   const [userId, setUserId] = useState('');
-  const [name, setName] = useState('');
-  const [files, setFiles] = useState([]);
+  const [newUsername, setNewUsername] = useState('');
+  const [file, setFile] = useState();
 
   const handleFileChange = (e) => {
-    setFiles(e.target.files);
+    setFile(e.target.files[0]);
   };
 
   const handleUpdateProfile = async () => {
     try {
       const formData = new FormData();
       formData.append('user_id', userId);
-      formData.append('name', name);
-   
+      formData.append('username', newUsername);
+      formData.append('file', file);
 
-   
-      for (let i = 0; i < files.length; i++) {
-        formData.append('files', files[i]);
-      }
+      // Append each file to the FormData
+      // for (let i = 0; i < files.length; i++) {
+      //   formData.append('files', files[i]);
+      // }
 
-      const response = await fetch('/api/product/addproduct', {
-        method: 'POST',
+      const response = await fetch('/api/profile/update', {
+        method: 'PUT',
         body: formData,
       });
 
@@ -55,8 +55,8 @@ const Product = () => {
           New Username:
           <input
             type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={newUsername}
+            onChange={(e) => setNewUsername(e.target.value)}
           />
         </label>
         <br />
@@ -77,4 +77,4 @@ const Product = () => {
   );
 };
 
-export default Product;
+export default UserProfileUpdate;

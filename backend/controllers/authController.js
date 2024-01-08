@@ -39,7 +39,7 @@ const register = async (req, res) => {
 };
 
 const login = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password  } = req.body;
 
   try {
     const user = await User.findOne({ where: { email } });
@@ -52,9 +52,10 @@ const login = async (req, res) => {
 
     if (isPasswordValid) {
       const token = JwtCreator(email, user.id);
+          const role=user.role;
       res.cookie("jwt", token, { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true });
-      
-      res.status(201).json({ status: "success", user, token });
+      res.cookie("role", role, { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true });
+      res.status(201).json({ status: "success", user, token ,role });
     } else {
       res.status(401).json({ msg: "Invalid Password!" });
     }

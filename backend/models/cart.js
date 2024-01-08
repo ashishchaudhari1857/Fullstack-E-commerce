@@ -11,7 +11,16 @@ const Cart = sequelize.define("cart", {
     type : Sequelize.STRING(50),
     allowNull: false,
   }
+},
+{
 
+  indexes: 
+  [
+    {
+      unique: true,
+      fields: ['id', 'userId']
+    }
+  ]
   
 });
 module.exports = Cart;

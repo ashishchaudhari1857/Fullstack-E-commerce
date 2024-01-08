@@ -1,5 +1,6 @@
 const Products = require("../models/product");
 const Review = require("../models/review");
+const {uploadOnCloudinary} =require('../utilis/cloudnary')
 
 const addProduct = async (req, res) => {
   try {
@@ -7,7 +8,19 @@ const addProduct = async (req, res) => {
       name: req.body.name,
       description: req.body.description,
       price: parseFloat(req.body.price),
+      stock: parseFloat(req.body.stock)
     });
+
+    if (req.files && req.files.length > 0) {
+      const cloudinaryUrls = [];
+
+      for (let i = 0; i < req.files.length; i++) {
+        const cloudinaryResponse = await uploadOnCloudinary(req.files[i].path);
+        cloudinaryUrls.push(cloudinaryResponse.secure_url);
+      }
+        console.log(cloudinaryUrls)
+        productCreate.ImgUrls = cloudinaryUrls;
+    }
     productCreate.save();
     res.status(200).json(productCreate);
   } catch (error) {

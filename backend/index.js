@@ -4,7 +4,7 @@ const cookieParser = require('cookie-parser')
 const dotenv=require('dotenv')
 const sequelize = require('./config/dbconfig');
 /// route protectors
-const { userCheck, adminCheck } = require('./middlewares/auth');
+const { userCheck, adminCheck  ,loginCheck} = require('./middlewares/auth');
 
 
 const ProductRoute = require('./routes/product');
@@ -36,32 +36,30 @@ app.use('/api/product', adminCheck , ProductRoute);
 app.use('/api/reviews', userCheck  , ReviewRoute);
 app.use('/api/auth',  AuthRoute);
 app.use('/api/cart', userCheck ,CartRoute);
-app.use('/api/profile', userCheck, ProfileRoute);
+app.use('/api/profile', loginCheck, ProfileRoute);
 
 // Define associations
-Product.hasMany(Review, { onDelete: 'CASCADE' }); // Cascade delete reviews when a product is deleted
-Review.belongsTo(Product);
 
-User.hasOne(Profile, { onDelete: 'CASCADE' }); 
+Product.hasMany(Review, { onDelete: 'CASCADE' ,onUpdate:'CASCADE' }); // Cascade delete reviews when a product is deleted
+Review.belongsTo(Product);
+Review.belongsTo(User);
+
+
+
+User.hasOne(Profile, { onDelete: 'CASCADE',onUpdate:'CASCADE' }); 
 Profile.belongsTo(User);
 
-User.hasOne(Cart, { onDelete: 'CASCADE' }); 
+User.hasOne(Cart, { onDelete: 'CASCADE' ,onUpdate:'CASCADE'}); 
 Cart.belongsTo(User);
 
-Cart.belongsToMany(Product, { through: CartProducts, onDelete: 'CASCADE' }); 
-Product.belongsToMany(Cart, { through: CartProducts, onDelete: 'CASCADE' });
+Cart.belongsToMany(Product, { through: CartProducts, onDelete: 'CASCADE' ,onUpdate:'CASCADE' }); 
+Product.belongsToMany(Cart, { through: CartProducts, onDelete: 'CASCADE',onUpdate:'CASCADE' });
 
-// Review.belongsTo(User, { foreignKey: 'UserId', targetKey: 'id' });
-// Review.belongsTo(Product, { foreignKey: 'ProductId', targetKey: 'id' });
-// Review.addConstraint('unique_review_per_user_product', ['UserId', 'ProductId'], {
-//   type: 'unique',
-//   name: 'unique_review_per_user_product'
-// });
 
-//   we need to create a third party  table for  the  many association\
+
 Cart.belongsToMany(Product,{through:CartProducts});
 Product.belongsToMany(Cart,{through:CartProducts})
-// Sync the database
+
 sequelize.sync({ force: true }).then(() => {
   const PORT = process.env.PORT || 3000;
   app.listen(PORT, () => {

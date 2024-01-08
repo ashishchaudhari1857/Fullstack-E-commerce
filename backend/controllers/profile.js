@@ -6,40 +6,42 @@ const sequelize=require('../config/dbconfig');
 
 
 const updateProfile = async (req, res) => {
-  const { user_id, username } = req.body;
+  const { user_id, username, name, email, phone, address, dob, gender } = req.body;
 
   try {
-    // Find the profile based on user_id
     const profile = await Profile.findOne({ where: { userId: user_id } });
-
-    // If profile not found, return 404
     if (!profile) {
       return res.status(404).json({ message: 'Profile not found' });
     }
 
-    // Update profile properties based on the form data
-    profile.username = username;
-
-    // Handle file upload if needed
-    // if (req.file) {
-      
-    //   const cloudinaryResponse = await uploadOnCloudinary(req.file.path);
-    //   profile.cloudinaryUrl = cloudinaryResponse.secure_url;
-    //   console.log(cloudinaryResponse.secure_url)
-    // }
-
-
-    if (req.files && req.files.length > 0) {
-      const cloudinaryUrls = [];
-
-      for (let i = 0; i < req.files.length; i++) {
-        const cloudinaryResponse = await uploadOnCloudinary(req.files[i].path);
-        cloudinaryUrls.push(cloudinaryResponse.secure_url);
-      }
-        console.log(cloudinaryUrls)
-      // Update profile with Cloudinary URLs
-      profile.cloudinaryUrls = cloudinaryUrls;
+    if (username) {
+      profile.username = username;
     }
+    if (name) {
+      profile.name = name;
+    }
+    if (email) {
+      profile.email = email;
+    }
+    if (phone) {
+      profile.phone = phone;
+    }
+    if (address) {
+      profile.address = address;
+    }
+    if (dob) {
+      profile.dob = dob;
+    }
+    if (gender) {
+      profile.gender = gender;
+    }
+       console.log(req.file)
+    if (req.file) {
+      const cloudinaryResponse = await uploadOnCloudinary(req.file.path);
+      profile.ImgUrl = cloudinaryResponse.secure_url;
+      console.log(cloudinaryResponse.secure_url);
+    }
+
     // Save the updated profile
     await profile.save();
 

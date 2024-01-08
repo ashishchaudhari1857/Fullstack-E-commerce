@@ -7,13 +7,13 @@ const Sequelize=require('sequelize')
 
 const createCart = async (req, res) => {
   try {
-    const { userId  , username} = req.body;
+    const { userId } = req.body;
     let cart;
 
     const user = await User.findByPk(userId);
 
     if (user) {
-      cart = await user.createCart( {username:username});
+      cart = await user.createCart( {username:user.username});
       
     } else {
       return res.status(400).json({

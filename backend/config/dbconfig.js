@@ -1,10 +1,8 @@
-const Sequelize = require('sequelize')
-//   setting the    database connection
-const sequelize =new Sequelize("node_again" , "root" , "Ashish@123" ,{
-    host: 'localhost',
-    dialect: 'mysql', 
+const Sequelize = require('sequelize');
+require('dotenv').config();
+const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USERNAME, process.env.DB_PASSWORD, {
+    host: process.env.DB_HOST,  // Corrected typo here
+    dialect: process.env.DB_DIALECT,
 });
 
-
-
-module.exports =sequelize;
+module.exports = sequelize;
