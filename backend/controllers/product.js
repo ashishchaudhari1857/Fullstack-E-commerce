@@ -35,9 +35,9 @@ const addProduct = async (req, res) => {
 
 const getAdminProducts = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { userId } = req.params;
     const adminUser = await User.findOne({
-      where: { id: id, role: "admin" },
+      where: { id: userId, role: "admin" },
     });
 
     if (!adminUser) {

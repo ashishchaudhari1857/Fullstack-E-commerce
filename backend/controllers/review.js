@@ -25,7 +25,8 @@ const AddReviewTo = async (req, res) => {
 
     res.status(200).json(review);
   } catch (error) {
-    res.status(500).json({ err: "internal server error" });
+
+    res.status(500).json({ err: "internal server error"  ,error:error.message});
   }
 };
 
