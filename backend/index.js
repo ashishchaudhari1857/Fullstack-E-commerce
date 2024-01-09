@@ -32,7 +32,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
-app.use('/api/product', adminCheck , ProductRoute);
+app.use('/api/product' , ProductRoute);
 app.use('/api/reviews', userCheck  , ReviewRoute);
 app.use('/api/auth',  AuthRoute);
 app.use('/api/cart', userCheck ,CartRoute);
@@ -44,7 +44,7 @@ Product.hasMany(Review, { onDelete: 'CASCADE' ,onUpdate:'CASCADE' }); // Cascade
 Review.belongsTo(Product);
 Review.belongsTo(User);
 
-
+User.hasMany(Product ,{ onDelete: 'CASCADE' ,onUpdate:'CASCADE' })
 
 User.hasOne(Profile, { onDelete: 'CASCADE',onUpdate:'CASCADE' }); 
 Profile.belongsTo(User);
@@ -60,7 +60,7 @@ Product.belongsToMany(Cart, { through: CartProducts, onDelete: 'CASCADE',onUpdat
 Cart.belongsToMany(Product,{through:CartProducts});
 Product.belongsToMany(Cart,{through:CartProducts})
 
-sequelize.sync({ force: true }).then(() => {
+sequelize.sync({ force: false }).then(() => {
   const PORT = process.env.PORT || 3000;
   app.listen(PORT, () => {
     console.log('Server connected');
