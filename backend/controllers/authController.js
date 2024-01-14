@@ -2,6 +2,7 @@ const bcrypt = require("bcryptjs");
 const User = require("../models/user");
 const Profile = require("../models/profile");
 const JwtCreator = require("../utilis/jwt-generator");
+const Cart =require('../models/cart')
 
 const register = async (req, res) => {
   const { username, email, password, role = "user" } = req.body;
@@ -20,14 +21,21 @@ const register = async (req, res) => {
       userId: user.id,
       email,
     });
+     let  cart;
+     let cardId;
 
-    const token = JwtCreator(email, user.id);
-
+      if(role=="user"){
+       
+         cart = await user.createCart( {username:user.username});
+         cardId=cart.id;
+      } 
+      const token = JwtCreator(email, user.id);
+     
     res.cookie("jwt", token, { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true });
     res.cookie("role", role, { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true });
 
     res.status(201).json({
-      status: "success", user, role,token, profile});
+      status: "success", user, role,token, profile,  cardId});
   } 
   catch (error) {
     if (error.code === "23505") {

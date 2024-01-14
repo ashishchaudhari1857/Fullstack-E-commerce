@@ -1,4 +1,4 @@
-const { where } = require("../config/dbconfig");
+const { where, Sequelize } = require("../config/dbconfig");
 const Products = require("../models/product");
 const Review = require("../models/review");
 const User  =require('../models/user')
@@ -60,12 +60,12 @@ const SearchQuery = async (req, res) => {
   const  {name}  = req.query;
 
   try {
-    const products = await Products.findAll({include:[Review]});
-    const result = products.filter((product) => {
-      return product.name.toLowerCase().includes(name.toLowerCase());
-    });
+    const products = await Products.findAll({ where:{name:{
+      [Sequelize.Op.iLike]:`%${name}%`
+}} ,include:[Review]});
 
-    return res.status(200).json({ products: result});
+
+    return res.status(200).json({ products});
   } catch (err) {
     return res.status(500).json({ message: err.message });
   }
