@@ -40,7 +40,7 @@ const Product = () => {
 
   return (
     <div>
-      <h2>Update Profile</h2>
+      <h2>Update Profilertrt</h2>
       <form>
         <label>
           User ID:
@@ -69,7 +69,7 @@ const Product = () => {
           />
         </label>
         <br />
-        <button   className="bg-black" type="button" onClick={handleUpdateProfile}>
+        <button   className="bg-white" type="button" onClick={handleUpdateProfile}>
           Update Profile
         </button>
       </form>

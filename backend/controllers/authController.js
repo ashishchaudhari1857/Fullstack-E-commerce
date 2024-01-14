@@ -5,10 +5,9 @@ const JwtCreator = require("../utilis/jwt-generator");
 const Cart = require("../models/cart");
 const { findOne } = require("../models/product");
 const { use } = require("../routes/product");
-
+const validator =require('validator')
 const register = async (req, res) => {
   const { username, email, password, role = "user" } = req.body;
-  console.log(req.body)
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
     const  user = await User.create({

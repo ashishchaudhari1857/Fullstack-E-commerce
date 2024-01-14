@@ -12,7 +12,7 @@ const UserProfileUpdate = () => {
   const handleUpdateProfile = async () => {
     try {
       const formData = new FormData();
-      formData.append('user_id', userId);
+      formData.append('userId', userId);
       formData.append('username', newUsername);
       formData.append('file', file);
 
@@ -40,7 +40,7 @@ const UserProfileUpdate = () => {
 
   return (
     <div>
-      <h2>Update Profile</h2>
+      <h2>Update Profilen hhh</h2>
       <form>
         <label>
           User ID:
@@ -70,7 +70,7 @@ const UserProfileUpdate = () => {
         </label>
         <br />
         <button type="button" onClick={handleUpdateProfile}>
-          Update Profile
+          Updatex Profile
         </button>
       </form>
     </div>

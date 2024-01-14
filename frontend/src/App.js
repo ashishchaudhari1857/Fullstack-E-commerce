@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
-import UserProfileUpdate from './components/Profile';
 import Product from './components/Profile';
 import SignUp from './components/auth/signup';
+import UserProfileUpdate from './components/Product';
 
 function App() {
  
@@ -62,9 +62,8 @@ function App() {
           <button type="submit">Login</button>
         </form>
       </div>
-      <UserProfileUpdate></UserProfileUpdate>
       <Product></Product>
-      <SignUp></SignUp>
+    {/*   <SignUp></SignUp> */}
     </div>
     
   );
