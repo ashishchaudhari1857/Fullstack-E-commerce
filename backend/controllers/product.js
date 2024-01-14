@@ -56,6 +56,22 @@ const getAdminProducts = async (req, res) => {
 
 
 
+const SearchQuery = async (req, res) => {
+  const  {name}  = req.query;
+
+  try {
+    const products = await Products.findAll({include:[Review]});
+    const result = products.filter((product) => {
+      return product.name.toLowerCase().includes(name.toLowerCase());
+    });
+
+    return res.status(200).json({ products: result});
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+};
+
+
 // put
 const updateProduct =async (req, res)=>{
     const { id ,userId }=req.params;
@@ -123,5 +139,7 @@ module.exports={
     deleteProduct,
     getAdminProducts,
     getSingleProduct,
-    getAllProducts
+    getAllProducts,
+    SearchQuery
+
 }

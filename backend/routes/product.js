@@ -4,10 +4,9 @@ const  productController =require('../controllers/product');
 const {upload}=require('../middlewares/multer')
 const { userCheck, adminCheck ,loginCheck } = require('../middlewares/auth');
  
-
+router.get ('/search',  loginCheck, productController.SearchQuery)
 router.get('/', loginCheck , productController.getAllProducts);
 router.get('/:id',  loginCheck ,productController.getSingleProduct);
-
 router.post('/addproduct', adminCheck , upload.array('files'),productController.addProduct);
 router.put('/update/:userId/:id',  adminCheck ,productController.updateProduct);
 router.delete('/delete/:userId/:id', adminCheck, productController.deleteProduct);

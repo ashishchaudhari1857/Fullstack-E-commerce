@@ -69,7 +69,7 @@ const Product = () => {
           />
         </label>
         <br />
-        <button type="button" onClick={handleUpdateProfile}>
+        <button   className="bg-black" type="button" onClick={handleUpdateProfile}>
           Update Profile
         </button>
       </form>

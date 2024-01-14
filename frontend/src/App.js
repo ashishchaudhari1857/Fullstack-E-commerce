@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 import UserProfileUpdate from './components/Profile';
 import Product from './components/Profile';
+import SignUp from './components/auth/signup';
 
 function App() {
  
@@ -63,6 +64,7 @@ function App() {
       </div>
       <UserProfileUpdate></UserProfileUpdate>
       <Product></Product>
+      <SignUp></SignUp>
     </div>
     
   );
