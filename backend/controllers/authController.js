@@ -17,9 +17,9 @@ const register = async (req, res) => {
     });
 
     const profile = await user.createProfile({
-      user_id: user.id,
       userId: user.id,
       email,
+      role
     });
      let  cart;
      let cardId;

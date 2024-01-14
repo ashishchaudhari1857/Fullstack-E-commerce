@@ -21,7 +21,14 @@ const User = sequelize.define('user', {
       },
    role:{
     type:DataTypes.STRING,
-   }
+   },
+   indexes: 
+  [
+    {
+      unique: true,
+      fields: ['email', 'role']
+    }
+  ]
 });
 
 module.exports = User;
