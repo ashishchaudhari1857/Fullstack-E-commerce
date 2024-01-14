@@ -10,7 +10,6 @@ const Cart = sequelize.define("cart", {
   username:{
     type : Sequelize.STRING(50),
     allowNull: false,
-    unique:true,
   }
 },
 {

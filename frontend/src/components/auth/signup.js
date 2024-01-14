@@ -10,16 +10,18 @@ function SignUp() {
 
   const submitHandler =async (e)=>{
         e.preventDefault();
+
         const obj={
             username:usernameRef.current.value,
             password:passwordRef.current.value,
             email:emailRef.current.value,
             role:roleRef.current.value
         }
+        console.log(obj)
        try {
-        const res= axios.post('/api/auth/signup',obj);
-         console.log(res)
+        const res=  await axios.post('/api/auth/signup',obj);
        } catch (error) {
+
           console.log(error)
        }
         
@@ -31,19 +33,19 @@ function SignUp() {
 
   return (
     <div>
-        <h1 className="text-center mt-5">Sign Up</h1>
-        <form onSubmit={submitHandler} className='d-flex flex-column align  items-center'>
+        <h1 className="mt-5 text-center">Sign Up</h1>
+        <form onSubmit={submitHandler} className='items-center d-flex flex-column align'>
             <input type='text' placeholder='Enter Username' ref={usernameRef} required/>
             <input type='email' placeholder='Enter email' ref={emailRef} required/>
             <input type={toggel ? "text":"password"} placeholder='Enter password' ref={passwordRef} required/>
             <button onClick={(e)=> setToggel(!toggel)}>{toggel ?"Hide ":"Show"}</button>
-            <select ref={roleRef}> 
-                <option value="" disabled selected >Select Role</option>
-                <option value="user">User</option>
-                <option value="admin">Admin</option>
-            </select>
+            <select ref={roleRef} defaultValue="">
+          <option value="" disabled>Select Role</option>
+          <option value="user">User</option>
+          <option value="admin">Admin</option>
+        </select>
             <br/>
-        <button type='submit' className='bg-black text-white' >Sign Up</button>
+        <button type='submit' className='text-white bg-black' >Sign Up</button>
           
         </form>
     </div>

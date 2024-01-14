@@ -8,37 +8,20 @@ const { use } = require("../routes/product");
 
 const register = async (req, res) => {
   const { username, email, password, role = "user" } = req.body;
+  console.log(req.body)
   try {
-    const checkuser = await User.findOne({ where: { email } });
     const hashedPassword = await bcrypt.hash(password, 10);
-
-    let user;
-    let profile;
-
-    if (!checkuser) {
-      console.log("waht");
-      user = await User.create({
+    const  user = await User.create({
         username,
         email,
         password: hashedPassword,
         role: role || "user",
       });
-
-      profile = await user.createProfile({
+     const  profile = await user.createProfile({
         userId: user.id,
         email,
         role,
       });
-    } else {
-      if (checkuser.role === "admin + user")
-        return res.status(500).json({ status: "user already  exist " });
-
-      user = checkuser;
-      console.log("waht the fuck");
-      checkuser.role = "admin + user";
-      await checkuser.save();
-    }
-
     let cart;
     let cardId;
 
@@ -46,7 +29,6 @@ const register = async (req, res) => {
       cart = await user.createCart({ username: user.username });
       cardId = cart.id;
     }
-
     const token = JwtCreator(email, user.id);
 
     res.cookie("jwt", token, {
@@ -72,7 +54,7 @@ const register = async (req, res) => {
         .status(409)
         .json({ status: "conflict", msg: "Email already exists" });
     } else {
-      return res.status(500).json({ status: "server error" });
+      return res.status(500).json({ status: "server error" ,error:error.message});
     }
   }
 };
