@@ -1,69 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
-import Product from './components/Profile';
-import SignUp from './components/auth/signup';
-import UserProfileUpdate from './components/Product';
-
+import SignUp from './components/authentication/Signupx';
+import Login from './components/authentication/SignIn';
+import { Route, Routes } from 'react-router-dom';
 function App() {
  
-  const emailRef = useRef(null);
-  const passwordRef = useRef(null);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: emailRef.current.value,
-          password: passwordRef.current.value,
-        }),
-      });
-
-      if (!res.ok) {
-        throw new Error('Failed to login');
-      }
-
-      const data = await res.json();
-      console.log(data);
-    } catch (error) {
-      console.error('Error during login:', error.message);
-    }
-  };
+ 
 
   return (
     <div className="App">
-      <div>
-        <h2>Login</h2>
-        <form onSubmit={handleSubmit}>
-          <label>
-            Email:
-            <input
-              type="email"
-              name="email"
-            
-              ref={emailRef}
-            />
-          </label>
-          <br />
-          <label>
-            Password:
-            <input
-              type="password"
-              name="password"
-             
-              ref={passwordRef}
-            />
-          </label>
-          <br />
-          <button type="submit">Login</button>
-        </form>
-      </div>
-      <Product></Product>
-    {/*   <SignUp></SignUp> */}
+      
+      <Routes>
+        <Route  path='/login' element={<Login></Login>}></Route>
+        <Route  path='/signup' element={<SignUp></SignUp>}></Route>
+      </Routes>
     </div>
     
   );
