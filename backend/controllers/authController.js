@@ -48,13 +48,8 @@ const register = async (req, res) => {
       cardId,
     });
   } catch (error) {
-    if (error.code === "23505") {
-      return res
-        .status(409)
-        .json({ status: "conflict", msg: "Email already exists" });
-    } else {
-      return res.status(500).json({ status: "server error" ,error:error.message});
-    }
+      return res.status(500).json({ status: "server error" ,message:error.errors[0].message});
+    
   }
 };
 
@@ -85,13 +80,13 @@ const login = async (req, res) => {
       });
       res.status(201).json({ status: "success", user, token, role });
     } else {
-      res.status(401).json({ msg: "Invalid Password!" });
+      res.status(401).json({ message: "Invalid Password!" });
     }
   } catch (error) {
     res.status(500).json({
       status: "login failed",
       message: "Internal Server Error",
-      error: error.message,
+      error: error.errors[0].message,
     });
   }
 };
@@ -107,7 +102,7 @@ const getUsers = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       status: "failed",
-      error: error.message,
+      error: error.errors[0].message,
       message: "Internal Server Error",
     });
   }
@@ -129,7 +124,7 @@ const getUser = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       status: "failed",
-      error: error.message,
+      error: error.errors[0].message,
       message: "Internal Server Error",
     });
   }
@@ -142,23 +137,23 @@ const forgetPassword = async (req, res) => {
     const hashupdatedPassword = await bcrypt.hash(updatedPassword, 10);
 
     if (!validator.isEmail(email)) {
-      return res.status(400).json({ status: "error", msg: "Please provide a valid email address." });
+      return res.status(400).json({ status: "error", message: "Please provide a valid email address." });
     } else {
       const user = await User.findOne({ where: { email } });
       
       if (!user) {
-        return res.status(404).json({ status: "error", msg: "User not found" });
+        return res.status(404).json({ status: "error", message: "User not found" });
       }
 
       // Update user's password
       user.password = hashupdatedPassword;
       await user.save();
 
-      return res.status(200).json({ status: "success", msg: "Password updated successfully" });
+      return res.status(200).json({ status: "success", message: "Password updated successfully" });
     }
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ status: "error", msg: "Server error" });
+    return res.status(500).json({ status: "error", message: error.errors[0].message });
   }
 };
 

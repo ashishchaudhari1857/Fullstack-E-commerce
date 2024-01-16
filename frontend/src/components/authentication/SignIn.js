@@ -8,20 +8,28 @@ function Login() {
   const emailRef = useRef();
   const [showPassword, setShowPassword] = useState(false);
   const [showLoginForm, setShowLoginForm] = useState(false);
+  const [error ,setError]=useState(null)
 
   const submitHandler = async (e) => {
+    
     e.preventDefault();
-
     const obj = {
       password: passwordRef.current.value,
       email: emailRef.current.value,
     }; 
     try {
-      const res = await axios.post("/api/auth/login", obj);
+      const res = await axios.post("/api/auth/login", obj); 
+      setError(null)
+      
     } catch (error) {
-      console.log(error);
+      console.log(error.response.data.message)
+        setError(error.response.data.message)
     }
+
+ passwordRef.current.value="";
+ emailRef.current.value="";
   };
+
 
   return (
     <div className="bg-gradient-to-r from-[#131336] via-[#7088c2] to-[#0d0d33] h-[100vh] flex items-center justify-center">
@@ -85,7 +93,7 @@ function Login() {
                 {showPassword ? "Hide" : "Show"}
               </button>
             </div>
-            <div className="text-red-600 flex mt-5 justify-center items-center">error tyutyu jijlkjl ykuyhkjh</div>
+        {error && <div className="text-red-600 flex mt-5 justify-center items-center">{error}</div>}
 
               <button
                 type="submit"

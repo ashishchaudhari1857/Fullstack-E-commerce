@@ -10,7 +10,7 @@ function SignUp() {
   const roleRef = useRef();
   const [showPassword, setShowPassword] = useState(false);
   const [showLoginForm, setShowLoginForm] = useState(false);
-
+  const [error ,setError]=useState(null)
   const submitHandler = async (e) => {
     e.preventDefault();
 
@@ -20,11 +20,20 @@ function SignUp() {
       email: emailRef.current.value,
       role: roleRef.current.value,
     };
+
     try {
       const res = await axios.post("/api/auth/signup", obj);
+      setError(null)
     } catch (error) {
-      console.log(error);
+      console.log(error.response.data.message)
+      setError(error.response.data.message)
     }
+
+
+    usernameRef.current.value="";
+  passwordRef.current.value="";
+  emailRef.current.value="";
+   roleRef.current.value=""
   };
 
   return (
@@ -119,7 +128,7 @@ function SignUp() {
               </button>
             </div>
           </form>
-          <div className="text-red-600 flex mt-5 justify-center items-center">error tyutyu jijlkjl ykuyhkjh</div>
+          { error && <div className="text-red-600 flex mt-5 justify-center items-center">{error}</div>  }
           <div className="flex  mt-3  md:mt-5 justify-center items-center text-center" style={{ fontFamily: "cursive" }}>
             Already have an account? <NavLink to="/login" className="text-blue-500">Login</NavLink>
           </div>
