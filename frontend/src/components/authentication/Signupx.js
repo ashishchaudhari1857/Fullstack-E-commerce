@@ -11,9 +11,10 @@ function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
   const [showLoginForm, setShowLoginForm] = useState(false);
   const [error ,setError]=useState(null)
+  const [loading ,setLoading]=useState(false)
   const submitHandler = async (e) => {
     e.preventDefault();
-
+ setLoading(true);
     const obj = {
       username: usernameRef.current.value,
       password: passwordRef.current.value,
@@ -22,12 +23,31 @@ function SignUp() {
     };
 
     try {
+      
       const res = await axios.post("/api/auth/signup", obj);
+      console.log("sign in" ,res)
+
+      if(res.status===201){
+      
+        localStorage.setItem("userId" ,res.data.user.id)
+        localStorage.setItem("cartId" ,res.data.cartId)
+        localStorage.setItem("role" ,res.data.role)
+        localStorage.setItem("token" ,res.data.token)
+      }
+
       setError(null)
     } catch (error) {
-      console.log(error.response.data.message)
-      setError(error.response.data.message)
+      if (error.response) {
+        setError(error.response.data.message);
+      } else if (error.request) {
+        setError('Network error. Please try again.');
+      } else {
+        setError('An unexpected error occurred. Please try again.');
+      }
+    }finally{
+      setLoading(false)
     }
+
 
 
     usernameRef.current.value="";
@@ -41,11 +61,11 @@ function SignUp() {
       <div className="flex bg-white w-[80%] h-[80%] justify-evenly rounded-lg shadow-2xl">
         <div className={`w-[100%] md:w-[48%] relative flex justify-center ${showLoginForm ? 'hidden md:flex' : 'md:flex'}`}>
           <div className="absolute text-[#eedeee] text-center top-[15%]">
-            <p className="text-3xl capitalize font-bold font-mono underline-offset-4 shadow-2xl">
+            <p className="font-mono text-3xl font-bold capitalize shadow-2xl underline-offset-4">
               Welcome to E-shop{" "}
             </p>
           </div>
-          <img src="logo.png" alt="Additional Image" className="absolute h-14 w-14 rounded-full m-4" />
+          <img src="logo.png" alt="Additional Image" className="absolute m-4 rounded-full h-14 w-14" />
           <div
             onClick={() => setShowLoginForm(!showLoginForm)}
             style={{ fontFamily: "cursive" }}
@@ -65,9 +85,9 @@ function SignUp() {
         </div>
 
         <div className={`w-[100%] md:w-[60%] flex-col md:flex ${showLoginForm ? 'flex' : 'hidden md:flex'} justify-center p-6 rounded-lg sm:p-14  bg-gray-200`}>
-          <div className="flex flex-col justify-center items-center text-center">
+          <div className="flex flex-col items-center justify-center text-center">
             <PiUserCircleFill className="text-3xl"></PiUserCircleFill>
-            <h1 className="font-semibold text-blue-700 text-2xl m-1 text-center capitalize" style={{ fontFamily: "fantasy" }}>
+            <h1 className="m-1 text-2xl font-semibold text-center text-blue-700 capitalize" style={{ fontFamily: "fantasy" }}>
               Sign Up
             </h1>
           </div>
@@ -75,7 +95,7 @@ function SignUp() {
             <label htmlFor="USERNAME">Username</label>
             <input
               style={{ outline: "none" }}
-              className="border-b border-black bg-gray-200"
+              className="bg-gray-200 border-b border-black"
               type="text"
               ref={usernameRef}
               required
@@ -83,7 +103,7 @@ function SignUp() {
             <label htmlFor="EMAIL">Email</label>
             <input
               style={{ outline: "none" }}
-              className="border-b border-black bg-gray-200"
+              className="bg-gray-200 border-b border-black"
               type="email"
               ref={emailRef}
               required
@@ -106,7 +126,7 @@ function SignUp() {
               </button>
             </div>
 
-            <div className="flex justify-between items-center bg-gray-200">
+            <div className="flex items-center justify-between bg-gray-200">
               <select
                 ref={roleRef}
                 defaultValue=""
@@ -124,12 +144,13 @@ function SignUp() {
                 type="submit"
                 className="bg-blue-500 w-[30%] m-auto mt-4 rounded-lg hover:bg-green-400"
               >
-                Sign Up
+               {loading ?" Signing.....":" Sign Up"}
               </button>
             </div>
           </form>
-          { error && <div className="text-red-600 flex mt-5 justify-center items-center">{error}</div>  }
-          <div className="flex  mt-3  md:mt-5 justify-center items-center text-center" style={{ fontFamily: "cursive" }}>
+        {error && <div className="flex items-center justify-center mt-5 font-mono font-bold text-red-600 capitalize">{error}</div>}
+
+          <div className="flex items-center justify-center mt-3 text-center md:mt-5" style={{ fontFamily: "cursive" }}>
             Already have an account? <NavLink to="/login" className="text-blue-500">Login</NavLink>
           </div>
         </div>

@@ -21,14 +21,12 @@ const addProduct = async (req, res) => {
         const cloudinaryResponse = await uploadOnCloudinary(req.files[i].path);
         cloudinaryUrls.push(cloudinaryResponse.secure_url);
       }
-        console.log(cloudinaryUrls)
         productCreate.ImgUrls = cloudinaryUrls;
     }
     productCreate.save();
     res.status(200).json(productCreate);
   } catch (error) {
-    console.error("Error adding product:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: "Internal Server Error",message: "Internal Server Error"});
   }
 };
 
@@ -95,7 +93,7 @@ const deleteProduct = async (req, res) => {
     try {
       const  user =await User.findOne({where:{id:userId}});
         if(!user){
-            return res.status(400).json('The user does not exist')
+            return res.status(400).json('No owner is  present ')
                   }
       const productExist=await Products.findOne({where:{id:id ,userId:userId}});
 

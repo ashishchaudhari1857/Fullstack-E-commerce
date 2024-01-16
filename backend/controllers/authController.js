@@ -22,11 +22,11 @@ const register = async (req, res) => {
         role,
       });
     let cart;
-    let cardId;
+    let cartId;
 
     if (role === "user") {
       cart = await user.createCart({ username: user.username });
-      cardId = cart.id;
+      cartId = cart.id;
     }
     const token = JwtCreator(email, user.id);
 
@@ -45,7 +45,7 @@ const register = async (req, res) => {
       role,
       token,
       profile,
-      cardId,
+      cartId,
     });
   } catch (error) {
       return res.status(500).json({ status: "server error" ,message:error.errors[0].message});
@@ -70,6 +70,10 @@ const login = async (req, res) => {
     if (isPasswordValid) {
       const token = JwtCreator(email, user.id);
       const role = user.role;
+
+      const cart = await Cart.findOne({ where: { userId: user.id } });
+      const cartId = cart ? cart.id : null;
+
       res.cookie("jwt", token, {
         maxAge: 7 * 24 * 60 * 60 * 1000,
         httpOnly: true,
@@ -78,7 +82,7 @@ const login = async (req, res) => {
         maxAge: 7 * 24 * 60 * 60 * 1000,
         httpOnly: true,
       });
-      res.status(201).json({ status: "success", user, token, role });
+      res.status(201).json({ status: "success", user, token, role ,cartId });
     } else {
       res.status(401).json({ message: "Invalid Password!" });
     }
