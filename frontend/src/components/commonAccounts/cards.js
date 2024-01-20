@@ -4,7 +4,7 @@ function cards({data ,AddToCart , DeleteProduct, UpdateProduct ,BuyProduct}) {
   return (
     <div>
         <div>
-            <img src={data.ImgUrls[0]} ></img>
+            <img src={data.ImgUrls[0]} alt='loading ' ></img>
         </div>
         <div>
              <h1>

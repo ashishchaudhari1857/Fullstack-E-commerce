@@ -2,19 +2,23 @@ import axios from "axios";
 import React, { useRef, useState } from "react";
 import { PiUserCircleFill } from "react-icons/pi";
 import { NavLink } from "react-router-dom";
-
+import { useDispatch ,useSelector } from 'react-redux'
+import  { setShowLoginForm ,setShowPassword ,setError ,setLoading ,login  } from  '../../redux/slices/loginslice'
 function SignUp() {
   const usernameRef = useRef();
   const passwordRef = useRef();
   const emailRef = useRef();
   const roleRef = useRef();
-  const [showPassword, setShowPassword] = useState(false);
-  const [showLoginForm, setShowLoginForm] = useState(false);
-  const [error ,setError]=useState(null)
-  const [loading ,setLoading]=useState(false)
+  const dispatch = useDispatch();
+  
+  const loading=useSelector((state)=>state.Auth.loading);
+  const showPassword=useSelector((state)=>state.Auth.showPassword)
+  const error=useSelector((state)=>state.Auth.error)
+  const showLoginForm=useSelector((state)=>state.Auth.showLoginForm)  //  this  is use for responsive design
+
   const submitHandler = async (e) => {
     e.preventDefault();
- setLoading(true);
+    dispatch(setLoading(true))
     const obj = {
       username: usernameRef.current.value,
       password: passwordRef.current.value,
@@ -25,30 +29,23 @@ function SignUp() {
     try {
       
       const res = await axios.post("/api/auth/signup", obj);
-      console.log("sign in" ,res)
-
+     
       if(res.status===201){
-      
-        localStorage.setItem("userId" ,res.data.user.id)
-        localStorage.setItem("cartId" ,res.data.cartId)
-        localStorage.setItem("role" ,res.data.role)
-        localStorage.setItem("token" ,res.data.token)
+       dispatch(login(res?.data))
       }
 
-      setError(null)
+      dispatch(setError(null))
     } catch (error) {
       if (error.response) {
-        setError(error.response.data.message);
-      } else if (error.request) {
-        setError('Network error. Please try again.');
-      } else {
-        setError('An unexpected error occurred. Please try again.');
-      }
-    }finally{
-      setLoading(false)
-    }
-
-
+        dispatch( setError((error.response.data.message)))
+       } else if (error.request) {
+          dispatch( setError('Network error. Please try again.'))
+       } else {
+          dispatch( setError('An unexpected error occurred. Please try again.'))
+       }
+     }finally{
+       dispatch(setLoading(false))
+     }
 
     usernameRef.current.value="";
   passwordRef.current.value="";
@@ -67,7 +64,7 @@ function SignUp() {
           </div>
           <img src="logo.png" alt="Additional Image" className="absolute m-4 rounded-full h-14 w-14" />
           <div
-            onClick={() => setShowLoginForm(!showLoginForm)}
+            onClick={() => dispatch(setShowLoginForm())}
             style={{ fontFamily: "cursive" }}
             className="absolute font-bold font-cursive w-42 shadow-3xl top-[46%] left-[10%] rounded-md bg-[rgba(255, 255, 255, 0.2)] text-green-300 block md:hidden transition-transform transform hover:scale-110 hover:bg-yellow-400 hover:text-white cursor-pointer"
           >
@@ -120,7 +117,7 @@ function SignUp() {
               <button
                 type="button"
                 className="text-blue-700 underline cursor-pointer"
-                onClick={() => setShowPassword(!showPassword)}
+                onClick={() => dispatch(setShowPassword())}
               >
                 {showPassword ? "Hide" : "Show"}
               </button>
