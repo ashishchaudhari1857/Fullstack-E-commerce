@@ -60,7 +60,7 @@ Product.belongsToMany(Cart, { through: CartProducts, onDelete: 'CASCADE',onUpdat
 Cart.belongsToMany(Product,{through:CartProducts});
 Product.belongsToMany(Cart,{through:CartProducts})
 
-sequelize.sync({ force: false }).then(() => {
+sequelize.sync({ force: true }).then(() => {
   const PORT = process.env.PORT || 3000;
   app.listen(PORT, () => {
     console.log('Server connected');
@@ -68,3 +68,6 @@ sequelize.sync({ force: false }).then(() => {
 }).catch((err) => {
   console.log(err);
 });
+
+
+

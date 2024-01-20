@@ -11,6 +11,11 @@ const Products = sequelize.define('products', {
     allowNull: true,
     defaultValue: 0.00,
   },
+  category:{
+      type:Sequelize.TEXT,
+      allowNull:true
+                              
+  },
   description: {
     type: Sequelize.TEXT,
     allowNull: true,
