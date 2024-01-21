@@ -1,12 +1,13 @@
 import React from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from 'react';
-import {setLoading ,setError ,getProducts} from '../../redux/slices/adminproductManager'
+import {setLoading ,setError ,getProducts }  from '../../redux/slices/adminproductManager'
 import {GetAllProducts}  from '../../api/productApi'
+import  {addTocart ,getCartProducts}  from  '../../api/cartApis';
 import Cards from '../commonAccounts/cards';
+import {getcartsProducts} from '../../redux/slices/cartSlice'
 
 function ProductStore() {
-
     const dispatch = useDispatch();
     const products = useSelector((state) => state.AdminProductsManager.products);
     const loading = useSelector((state) => state.AdminProductsManager.loading);
@@ -39,9 +40,17 @@ function ProductStore() {
       };
 
        // add to cart
-        const AddToCart=()=>{
-              console.log("in thes cart")
-        }
+        const AddToCart= async(id)=>{
+               try {
+                const data =await addTocart(id);
+                const totolData=await getCartProducts();
+                dispatch(getcartsProducts(totolData))
+               } catch (error) {
+                handleFetchError(error);
+                } 
+              }
+        
+        
         const BuyProduct=()=>{
               console.log("in thes buty")
         }

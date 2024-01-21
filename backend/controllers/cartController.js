@@ -41,7 +41,6 @@ const createCart = async (req, res) => {
 const addToCart = async (req, res) => {
   try {
     const { cartId, productId, quantity } = req.body;
-    console.log(cartId)
     const cart = await Cart.findByPk(cartId);
     const product = await Product.findByPk(productId);
 
@@ -60,8 +59,7 @@ const addToCart = async (req, res) => {
       });
     } else {
       const cartItem = await cart.addProduct(product, { through: { quantity: parseInt(quantity) || 1 } });
- 
-      return res.status(201).json({
+      return res.status(200).json({
         status: 'success',
         message: `Added ${product.name} to the cart`,
         data: cartItem,
@@ -124,8 +122,10 @@ const addToCart = async (req, res) => {
         try {
           const cart = await Cart.findByPk(cartId);
           if (!cart) return res.status(404).json({ status: 'failed', message: 'Cart not found' })
-          const cartdata=await cart.getProducts()
-           res.status(200).json({status:"success" ,result:[cartdata]})
+          const cartdata=await cart.getProducts();
+       console.log(cartdata  ,"hey");
+           res.status(200).json({status:"success" ,result:cartdata})
+
         } catch (error) {
           return res.status(500).json({
             status: 'failed',

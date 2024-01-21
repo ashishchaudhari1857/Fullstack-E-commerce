@@ -7,6 +7,7 @@ import AddProduct from './components/admin/addProduct';
 import Profile from './components/commonAccounts/profile';
 import AdminProducts from './components/admin/adminProducts';
 import ProductStore from './components/users/productStore';
+import Cart from './components/users/cart';
 
 function App() {
  
@@ -17,6 +18,7 @@ const  role =localStorage.getItem('role');
       <AdminProducts></AdminProducts>
       <ProductStore></ProductStore>
         <Profile></Profile>
+        <Cart></Cart>
       <Routes>
       {/* {role==="user"  && <Route index element={<Login></Login>}></Route>}
         {role==="" &&<Route  index element={<SignUp></SignUp>}></Route>} */}
