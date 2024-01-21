@@ -19,3 +19,24 @@
       throw error;
     }
   }
+  //update
+
+  export   const UpdateProduct = async (id ,formData) => {
+    try {
+      const response = await axios.put(`/api/product/update/${userId}/${id}` ,formData);
+       return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  // ALL PRODUCT
+  
+  export   const GetAllProducts = async () => {
+    try {
+      const response = await axios.get(`/api/product/`);
+       return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }

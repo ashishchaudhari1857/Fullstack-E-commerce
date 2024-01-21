@@ -12,6 +12,7 @@ const addProduct = async (req, res) => {
       price: parseFloat(req.body.price),
       stock: parseFloat(req.body.stock),
       userId:req.body.userId,
+      category:req.body.category
     });
 
     if (req.files && req.files.length > 0) {
@@ -37,6 +38,7 @@ const getAdminProducts = async (req, res) => {
     const adminUser = await User.findOne({
       where: { id: userId, role: "admin" },
     });
+    
 
     if (!adminUser) {
       return res.status(401).json({

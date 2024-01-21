@@ -4,7 +4,7 @@ const adminProductSlice = createSlice({
   name: "admin",
   initialState: {
     products: [],
-    product: null,
+    selectedProduct: null,
     loading: false,
     error: null,
   },
@@ -18,9 +18,12 @@ const adminProductSlice = createSlice({
     getProducts: (state, action) => {
       state.products = action.payload;
     },
+    setSelectedProduct: (state, action) => {
+      state.selectedProduct = action.payload;
+    },
   },
 });
 
 
  export default adminProductSlice.reducer;
- export const {setError ,setLoading ,getProducts}=adminProductSlice.actions;
+ export const {setError ,setLoading ,getProducts ,setSelectedProduct}=adminProductSlice.actions;

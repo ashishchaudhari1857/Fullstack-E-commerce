@@ -90,7 +90,6 @@ function ProductForm({handleSubmit , productNameRef , priceRef ,descriptionRef ,
         </label>
         <input
           type="file"
-          required
           id="file"
           multiple
           onChange={handleFileChange}

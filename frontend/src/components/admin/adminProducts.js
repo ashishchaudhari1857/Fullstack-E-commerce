@@ -4,12 +4,16 @@ import Cards from "../commonAccounts/cards";
 import {
   getProducts,
   setLoading,
-  setError
+  setError,
+  setSelectedProduct
 } from "../../redux/slices/adminproductManager";
-import  {GetProducts ,DeleteProduct} from  '../../api/productApi'
+import  {GetProducts ,DeleteProduct } from  '../../api/productApi'
+import { useNavigate } from 'react-router-dom';
+
 
 function AdminProducts() {
   const dispatch = useDispatch();
+  const navigate=useNavigate();
   const products = useSelector((state) => state.AdminProductsManager.products);
   const loading = useSelector((state) => state.AdminProductsManager.loading);
   const error = useSelector((state) => state.AdminProductsManager.error);
@@ -23,14 +27,7 @@ function AdminProducts() {
        const  data =await GetProducts();
       dispatch(getProducts(data));
     } catch (error) {
-      if (error.response) {
-        dispatch(setError(error.response.data.message));
-      } else if (error.request) {
-        dispatch(setError("Network error. Please try again."));
-      } else {
-        dispatch(setError("An unexpected error occurred. Please try again."));
-      }
-    
+      handleFetchError(error);
     }finally{
       dispatch(setLoading(false))
     }
@@ -40,20 +37,23 @@ function AdminProducts() {
     fetchData();
   }, [dispatch]);
 
-  
+  //error
+  const handleFetchError = (error) => {
+    if (error.response) {
+      setError(error.response.data.message);
+    } else if (error.request) {
+      setError('Network error. Please try again.');
+    } else {
+      setError('An unexpected error occurred. Please try again.');
+    }
+  };
 //delete data 
  const deletehandler=async(id)=>{
     try {
          await DeleteProduct(id);
             fetchData();
     } catch (error) {
-      if (error.response) {
-        dispatch(setError(error.response.data.message));
-      } else if (error.request) {
-        dispatch(setError("Network error. Please try again."));
-      } else {
-        dispatch(setError("An unexpected error occurred. Please try again."));
-      }
+      handleFetchError(error);
     
     }finally{
       dispatch(setLoading(false))
@@ -61,12 +61,12 @@ function AdminProducts() {
     }
  
 //
-const editHandler=()=>{
-  
+const editHandler=(item)=>{
+  dispatch(setSelectedProduct(item));
+  navigate('/addproduct')
 }
-     console.log(products);
   const data = products.map((item ,index)=>(
-    <Cards data={item} key={index} DeleteProduct={()=>deletehandler(item.id)} UpdateProduct={()=>editHandler}></Cards>
+    <Cards data={item} key={index} DeleteProduct={()=>deletehandler(item.id)} UpdateProduct={()=>editHandler(item)}></Cards>
   ))
   return (
     <>

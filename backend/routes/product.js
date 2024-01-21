@@ -8,7 +8,7 @@ router.get ('/search',  loginCheck, productController.SearchQuery)
 router.get('/', loginCheck , productController.getAllProducts);
 router.get('/:id',  loginCheck ,productController.getSingleProduct);
 router.post('/addproduct', adminCheck , upload.array('files'),productController.addProduct);
-router.put('/update/:userId/:id',  adminCheck ,productController.updateProduct);
+router.put('/update/:userId/:id',  adminCheck  ,upload.array('files'),productController.updateProduct);
 router.delete('/delete/:userId/:id', adminCheck, productController.deleteProduct);
 router.get('/admin/getproducts/:userId', adminCheck, productController.getAdminProducts);
 
