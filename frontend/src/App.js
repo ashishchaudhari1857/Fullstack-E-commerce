@@ -5,6 +5,7 @@ import Login from './components/authentication/SignIn';
 import { Route, Routes } from 'react-router-dom';
 import AddProduct from './components/admin/addProduct';
 import Profile from './components/commonAccounts/profile';
+import AdminProducts from './components/admin/adminProducts';
 
 function App() {
  
@@ -12,6 +13,7 @@ function App() {
 const  role =localStorage.getItem('role');
   return (
     <div className="App">
+      <AdminProducts></AdminProducts>
         <Profile></Profile>
       <Routes>
       {/* {role==="user"  && <Route index element={<Login></Login>}></Route>}

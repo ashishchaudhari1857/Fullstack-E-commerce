@@ -1,17 +1,17 @@
 import React from 'react'
 
-function cards({data ,AddToCart , DeleteProduct, UpdateProduct ,BuyProduct}) {
+function Cards({data ,AddToCart , DeleteProduct, UpdateProduct ,BuyProduct}) {
   return (
     <div>
         <div>
-            <img src={data.ImgUrls[0]} alt='loading ' ></img>
+            <img src={data?.ImgUrls?.[0]} alt='image' ></img>
         </div>
         <div>
              <h1>
-                {data.name}
+                {data?.name}
              </h1>
              <h1>
-                {data.category}
+                {data?.category}
              </h1>
         </div>
         <div>
@@ -22,4 +22,4 @@ function cards({data ,AddToCart , DeleteProduct, UpdateProduct ,BuyProduct}) {
   )
 }
 
-export default cards
+export default Cards

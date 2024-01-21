@@ -13,7 +13,6 @@ const loginSlice = createSlice({
 
   reducers:{
     setLoading:(state ,action)=>{
-        console.log(action.payload)
         state.loading=action.payload;
     },
     login:(state ,action)=>{
