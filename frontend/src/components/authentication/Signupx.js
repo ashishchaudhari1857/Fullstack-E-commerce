@@ -2,7 +2,8 @@ import axios from "axios";
 import React, { useRef, useState } from "react";
 import { PiUserCircleFill } from "react-icons/pi";
 import { NavLink } from "react-router-dom";
-import { useDispatch ,useSelector } from 'react-redux'
+import { useDispatch ,useSelector } from 'react-redux' 
+import { useNavigate } from "react-router-dom";
 import  { setShowLoginForm ,setShowPassword ,setError ,setLoading ,login  } from  '../../redux/slices/loginslice'
 function SignUp() {
   const usernameRef = useRef();
@@ -10,7 +11,7 @@ function SignUp() {
   const emailRef = useRef();
   const roleRef = useRef();
   const dispatch = useDispatch();
-  
+  const navigate=useNavigate();
   const loading=useSelector((state)=>state.Auth.loading);
   const showPassword=useSelector((state)=>state.Auth.showPassword)
   const error=useSelector((state)=>state.Auth.error)
@@ -32,6 +33,7 @@ function SignUp() {
      
       if(res.status===201){
        dispatch(login(res?.data))
+       {res?.data?.user?.role ==='user'?  navigate('/'):navigate('/dashboard')}
       }
 
       dispatch(setError(null))

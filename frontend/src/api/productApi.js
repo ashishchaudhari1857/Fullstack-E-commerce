@@ -1,6 +1,5 @@
  import axios from 'axios'
- const userId =localStorage.getItem('userId');
- export   const GetProducts = async (data) => {
+ export   const GetProducts = async (userId) => {
     try {
       const response = await axios.get(`/api/product/admin/getproducts/${userId}`);
        return response.data;
@@ -10,7 +9,7 @@
   }
 
 // delete
-  export   const DeleteProduct = async (id) => {
+  export   const DeleteProduct = async (id ,userId)  => {
     try {
       const response = await axios.delete(`/api/product/delete/${userId}/${id}`);
        return response.data;
@@ -20,7 +19,7 @@
   }
   //update
 
-  export   const UpdateProduct = async (id ,formData) => {
+  export   const UpdateProduct = async (id ,formData ,userId) => {
     try {
       const response = await axios.put(`/api/product/update/${userId}/${id}` ,formData);
        return response.data;

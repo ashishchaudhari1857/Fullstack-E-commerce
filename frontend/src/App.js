@@ -11,21 +11,26 @@ import Cart from './components/users/cart';
 import Navbar from './components/users/navbar';
 function App() {
  
- 
 const  role =localStorage.getItem('role');
+
   return (
     <div className="App">
-      <AdminProducts></AdminProducts>
-      {/* <ProductStore></ProductStore> */}
-        {/* <Profile></Profile> */}
+
+     {role==="user"  &&  <Navbar></Navbar>  }
+   
         {/* <Cart></Cart> */}
-        <Navbar></Navbar>
       <Routes>
-      {/* {role==="user"  && <Route index element={<Login></Login>}></Route>}
-        {role==="" &&<Route  index element={<SignUp></SignUp>}></Route>} */}
-        <Route  path='/login' element={<Login></Login>}></Route>
-        <Route  path='/signup' element={<SignUp></SignUp>}></Route>
-        <Route  path='/addproduct' element={<AddProduct></AddProduct>}></Route>
+
+      <Route  path='/signup' element={<SignUp></SignUp>}></Route>
+      <Route  path='/login' element={<Login></Login>}></Route>
+
+     { role==="user" &&   <Route index element={<ProductStore></ProductStore>}></Route>  }
+     { role==="user" &&   <Route path ='/' element={<ProductStore></ProductStore>}></Route>  }
+
+       < Route  path='/profile' element={<Profile></Profile>}></Route>
+
+      {role==="admin"  &&   <Route  path='/addproduct' element={<AddProduct></AddProduct>}></Route>}
+      {role==="admin"  &&   <Route  path='/' element={<AdminProducts></AdminProducts>}></Route>}
       </Routes>
     </div>
     

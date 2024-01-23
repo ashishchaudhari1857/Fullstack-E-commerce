@@ -1,6 +1,5 @@
 import axios from 'axios'
-const cartId =localStorage.getItem('cartId');
-export   const addTocart = async (id) => {
+export   const addTocart = async (id,cartId) => {
     try {
       const response = await axios.post(`/api/cart/add_To_cart`, {productId:id ,cartId:cartId});
        return response.data;
@@ -11,7 +10,7 @@ export   const addTocart = async (id) => {
 
   //get all products
 
-  export   const getCartProducts = async (id) => {
+  export   const getCartProducts = async (cartId) => {
     try {
       const response = await axios.get(`/api/cart/getcart/${cartId}`);
        return response.data.result;
@@ -21,7 +20,7 @@ export   const addTocart = async (id) => {
   }
   // remove from cart
 
-  // export   const getCartProducts = async (id) => {
+  // export   const getCartProducts = async (id,cartId) => {
   //   try {
   //     const response = await axios.get(`/api/cart/getcart/${cartId}`);
   //      return response.data;

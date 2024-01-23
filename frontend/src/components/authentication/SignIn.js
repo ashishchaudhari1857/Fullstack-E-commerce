@@ -1,11 +1,11 @@
 import axios from "axios";
 import React, { useRef, useState } from "react";
 import { PiUserCircleFill } from "react-icons/pi";
-import { NavLink } from "react-router-dom";
+import { NavLink  ,useNavigate} from "react-router-dom";
 import { useDispatch ,useSelector } from 'react-redux'
 import  { setShowLoginForm ,setShowPassword ,setError ,setLoading ,login  } from  '../../redux/slices/loginslice'
-
 function Login() {
+  const navigate=useNavigate();
   const passwordRef = useRef();
   const emailRef = useRef();
   const dispatch = useDispatch();
@@ -30,6 +30,7 @@ function Login() {
     dispatch(setError(null))
       if(res.status===201){
         dispatch(login(res.data));
+        {res?.data?.user?.role ==='user'?  navigate('/'):navigate('/dashboard')}
       } 
       
     } catch (error) {

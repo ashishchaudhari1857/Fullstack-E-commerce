@@ -8,12 +8,13 @@ function Cart({visible ,close } ) {
     const loading = useSelector((state) => state.cart.loading);
     const error = useSelector((state) => state.cart.error);
     const totalItems = useSelector((state) => state.cart.totalItems);
+    const cartId=useSelector((state)=>state.Auth.cartId)
     
     const fetchData = async () => {
         dispatch(setLoading(true))
          try {
           dispatch(setLoading(true));
-           const  data = await getCartProducts();
+           const  data = await getCartProducts(cartId);
            dispatch(getcartsProducts(data));
         } catch (error) {
           handleFetchError(error);

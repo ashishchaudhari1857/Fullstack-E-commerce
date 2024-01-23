@@ -12,6 +12,9 @@ function ProductStore() {
     const products = useSelector((state) => state.AdminProductsManager.products);
     const loading = useSelector((state) => state.AdminProductsManager.loading);
     const error = useSelector((state) => state.AdminProductsManager.error);
+    const cartId = useSelector((state) => state.Auth.cartId);
+    
+    
     const fetchData = async () => {
         dispatch(setLoading(true))
          try {
@@ -42,8 +45,8 @@ function ProductStore() {
        // add to cart
         const AddToCart= async(id)=>{
                try {
-                const data =await addTocart(id);
-                const totolData=await getCartProducts();
+                const data =await addTocart(id ,cartId);
+                const totolData=await getCartProducts(cartId);
                 dispatch(getcartsProducts(totolData))
                } catch (error) {
                 handleFetchError(error);

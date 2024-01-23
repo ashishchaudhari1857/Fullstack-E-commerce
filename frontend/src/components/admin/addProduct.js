@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useRef, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
   setError,
   setLoading,
@@ -12,6 +13,7 @@ import ProductForm from "./productForm";
 
 const AddProduct = () => {
   const dispatch = useDispatch();
+  const navigate= useNavigate()
   const selectedProduct = useSelector((state) => state.AdminProductsManager.selectedProduct);
 
   const productNameRef = useRef(null);
@@ -21,7 +23,6 @@ const AddProduct = () => {
   const categoryRef = useRef(null);
 
   useEffect(() => {
-    // Update refs with selectedProduct values when it changes
     productNameRef.current.value = selectedProduct?.name || "";
     priceRef.current.value = selectedProduct?.price || "";
     descriptionRef.current.value = selectedProduct?.description || "";
@@ -31,7 +32,7 @@ const AddProduct = () => {
 
   const [files, setFiles] = useState([]);
 
-  const userId = localStorage.getItem("userId");
+  const userId =useSelector((state)=>state.Auth.userId);
   const loading = useSelector((state) => state.AdminProductsManager.loading);
   const error = useSelector((state) => state.AdminProductsManager.error);
 
@@ -58,7 +59,7 @@ const AddProduct = () => {
 
       let res;
       if (selectedProduct) {
-        res = await UpdateProduct(selectedProduct.id, formData);
+        res = await UpdateProduct(selectedProduct.id, formData ,userId);
       } else {
         res = await axios.post("/api/product/addproduct", formData);
       }
@@ -66,10 +67,13 @@ const AddProduct = () => {
       if (res.status === 200) {
         dispatch(setError(null));
         dispatch(setSelectedProduct(null));
+        const data = await GetProducts(userId);
+        console.group("hellow")
+        dispatch(getProducts(data));
+        navigate('/')
       }
 
-      const data = await GetProducts();
-      dispatch(getProducts(data));
+      
     } catch (error) {
       if (error.response) {
         dispatch(setError(error.response.data.message));

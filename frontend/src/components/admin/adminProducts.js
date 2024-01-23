@@ -17,14 +17,16 @@ function AdminProducts() {
   const products = useSelector((state) => state.AdminProductsManager.products);
   const loading = useSelector((state) => state.AdminProductsManager.loading);
   const error = useSelector((state) => state.AdminProductsManager.error);
+  const userId=useSelector((state)=>state.Auth.userId)
 
   //get data 
 
   const fetchData = async () => {
+
     dispatch(setLoading(true))
      try {
       dispatch(setLoading(true));
-       const  data =await GetProducts();
+       const  data =await GetProducts(userId);
       dispatch(getProducts(data));
     } catch (error) {
       handleFetchError(error);
@@ -49,9 +51,9 @@ function AdminProducts() {
   };
 
 //delete data 
- const deletehandler=async(id)=>{
+ const deletehandler=async(id ,userId)=>{
     try {
-         await DeleteProduct(id);
+         await DeleteProduct(id,userId);
             fetchData();
     } catch (error) {
       handleFetchError(error);
@@ -72,7 +74,7 @@ const editHandler=(item)=>{
   return (
     <>
       {loading ? "loading....":<div className="h-50">AdminProducts</div>} 
-    {data} 
+    
 
 <div>
       <h2 className="text-2xl font-bold mb-4">Explore Unique Themes</h2>
