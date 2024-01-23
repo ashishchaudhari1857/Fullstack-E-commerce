@@ -12,7 +12,6 @@
 // delete
   export   const DeleteProduct = async (id) => {
     try {
-        
       const response = await axios.delete(`/api/product/delete/${userId}/${id}`);
        return response.data;
     } catch (error) {

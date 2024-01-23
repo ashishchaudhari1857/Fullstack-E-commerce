@@ -58,7 +58,7 @@ function Login() {
               Welcome to E-shop{" "}
             </p>
           </div>
-          <img src="logo.png" alt="Additional Image" className="absolute m-4 rounded-full h-14 w-14" />
+          <img src="logo.svg" alt="Additional Image" className="absolute m-4 rounded-full h-14 w-14" />
           <div
             onClick={() => dispatch(setShowLoginForm())}
             style={{ fontFamily: "cursive" }}

@@ -47,6 +47,7 @@ function AdminProducts() {
       setError('An unexpected error occurred. Please try again.');
     }
   };
+
 //delete data 
  const deletehandler=async(id)=>{
     try {
@@ -60,18 +61,25 @@ function AdminProducts() {
     }
     }
  
-//
+// 
 const editHandler=(item)=>{
   dispatch(setSelectedProduct(item));
   navigate('/addproduct')
 }
-  const data = products.map((item ,index)=>(
+  const data = products?.map((item ,index)=>(
     <Cards data={item} key={index} DeleteProduct={()=>deletehandler(item.id)} UpdateProduct={()=>editHandler(item)}></Cards>
   ))
   return (
     <>
-    {loading ? "loading....":<div className="h-50">AdminProducts</div>}
-    {data}
+      {loading ? "loading....":<div className="h-50">AdminProducts</div>} 
+    {data} 
+
+<div>
+      <h2 className="text-2xl font-bold mb-4">Explore Unique Themes</h2>
+      <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {data}
+      </ul>
+    </div>
     </>
   )
 }

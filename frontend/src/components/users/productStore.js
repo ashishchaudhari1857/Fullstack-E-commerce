@@ -25,9 +25,9 @@ function ProductStore() {
         }
       };
     
-      useEffect(() => {
-        fetchData();
-      }, [dispatch]);
+      // useEffect(() => {
+      //   fetchData();
+      // }, [dispatch]);
 
       const handleFetchError = (error) => {
         if (error.response) {
@@ -54,7 +54,7 @@ function ProductStore() {
         const BuyProduct=()=>{
               console.log("in thes buty")
         }
-      const data = products.map((item ,index)=>(
+      const data = products?.map((item ,index)=>(
         <Cards data={item} key={index} AddToCart={()=>AddToCart(item.id)} BuyProduct={()=>BuyProduct(item.id)}></Cards>
       ))
   return (

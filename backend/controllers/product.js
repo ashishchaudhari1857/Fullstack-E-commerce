@@ -58,10 +58,10 @@ const getAdminProducts = async (req, res) => {
 
 const SearchQuery = async (req, res) => {
   const  {name}  = req.query;
-
+    
   try {
     const products = await Products.findAll({ where:{name:{
-      [Sequelize.Op.iLike]:`%${name}%`
+      [Sequelize.Op.like]:`%${name}%`
 }} ,include:[Review]});
 
 

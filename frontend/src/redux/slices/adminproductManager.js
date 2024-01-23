@@ -16,6 +16,7 @@ const adminProductSlice = createSlice({
       state.error = action.payload;
     },
     getProducts: (state, action) => {
+      console.log("p" ,action.payload)
       state.products = action.payload;
     },
     setSelectedProduct: (state, action) => {
