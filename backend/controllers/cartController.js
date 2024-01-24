@@ -90,7 +90,7 @@ const addToCart = async (req, res) => {
 
       const updatedCartItem = existingCartItem[0].CartProducts;
     if(updatedCartItem.quantity ===1){
-      await existingCartItem.destroy();
+      await updatedCartItem.destroy();
       return res.status(200).json({
         status: 'success',
         message: `delete successfully`,
@@ -123,7 +123,6 @@ const addToCart = async (req, res) => {
           const cart = await Cart.findByPk(cartId);
           if (!cart) return res.status(404).json({ status: 'failed', message: 'Cart not found' })
           const cartdata=await cart.getProducts();
-       console.log(cartdata  ,"hey");
            res.status(200).json({status:"success" ,result:cartdata})
 
         } catch (error) {
@@ -135,10 +134,37 @@ const addToCart = async (req, res) => {
           });
         }
    }
-   
+   const remove_from_cart_at_once =async(req,res)=>{
+    const {cartId , productId}=req.params;
+  
+    try {
+      const cart = await Cart.findByPk(cartId);
+      const product= await  Product.findByPk(productId);
+      if (!cart) return res.status(404).json({ status: 'failed', message: 'Cart not found' });
+      if (!product) return res.status(404).json({ status: 'failed', message: 'Product not found' });
+       const existingCartItem = await cart.getProducts({ where: { id: product.id } });
+        const updateProduct =existingCartItem[0].CartProducts;
+      await updateProduct.destroy();
+      return res.status(200).json({
+        status: 'success',
+        message: `delete successfully`,
+      });
+    
+
+    } catch (error) {
+      return res.status(500).json({
+        status: 'failed',
+        message: 'Failed to delete item',
+        data: [],
+        error: error.message,
+      });
+    }
+    
+  }
 module.exports = {
   create_cart: createCart,
   add_to_cart: addToCart,
   remove_from_cart: remove_from_cart,
-  getCart:getCart
+  getCart:getCart,
+  remove_from_cart_at_once
 };

@@ -63,12 +63,10 @@ const AddProduct = () => {
       } else {
         res = await axios.post("/api/product/addproduct", formData);
       }
-
       if (res.status === 200) {
         dispatch(setError(null));
         dispatch(setSelectedProduct(null));
         const data = await GetProducts(userId);
-        console.group("hellow")
         dispatch(getProducts(data));
         navigate('/')
       }

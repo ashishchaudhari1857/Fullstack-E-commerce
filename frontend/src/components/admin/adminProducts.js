@@ -69,7 +69,7 @@ const editHandler=(item)=>{
   navigate('/addproduct')
 }
   const data = products?.map((item ,index)=>(
-    <Cards data={item} key={index} DeleteProduct={()=>deletehandler(item.id)} UpdateProduct={()=>editHandler(item)}></Cards>
+    <Cards data={item} key={index} DeleteProduct={()=>deletehandler(item.id ,userId)} UpdateProduct={()=>editHandler(item)}></Cards>
   ))
   return (
     <>

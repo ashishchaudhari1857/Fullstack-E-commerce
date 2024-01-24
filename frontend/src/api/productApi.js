@@ -22,7 +22,7 @@
   export   const UpdateProduct = async (id ,formData ,userId) => {
     try {
       const response = await axios.put(`/api/product/update/${userId}/${id}` ,formData);
-       return response.data;
+       return response;
     } catch (error) {
       throw error;
     }

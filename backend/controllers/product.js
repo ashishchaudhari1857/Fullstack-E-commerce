@@ -23,8 +23,10 @@ const addProduct = async (req, res) => {
         cloudinaryUrls.push(cloudinaryResponse.secure_url);
       }
         productCreate.ImgUrls = cloudinaryUrls;
-    }
     productCreate.save();
+
+    }
+ 
     res.status(200).json(productCreate);
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error",message: "Internal Server Error"});
@@ -84,8 +86,21 @@ const updateProduct =async (req, res)=>{
       return res.status(404).json({ error: 'Product not found or u are not authorized to update  the product' });
     }
     //  WE can also do  like  productExist.name=req.body.name  AND then calling save ()
-    const updatedProduct=await Products.update(req.body ,{where:{id}});
-    res.status(200).json(updatedProduct)
+    const updatedProduct = await productExist.update(req.body, { where: { id } });
+    if (req.files && req.files.length > 0) {
+      const cloudinaryUrls = [];
+
+      for (let i = 0; i < req.files.length; i++) {
+        const cloudinaryResponse = await uploadOnCloudinary(req.files[i].path);
+        cloudinaryUrls.push(cloudinaryResponse.secure_url);
+      }
+      productExist.ImgUrls = cloudinaryUrls;
+      productExist.save();
+
+    }
+    
+    res.status(200).json(productExist);
+    
   
 }
 
@@ -95,7 +110,7 @@ const deleteProduct = async (req, res) => {
     try {
       const  user =await User.findOne({where:{id:userId}});
         if(!user){
-            return res.status(400).json('No owner is  present ')
+            return res.status(400).json('you are not owner of the  this product ')
                   }
       const productExist=await Products.findOne({where:{id:id ,userId:userId}});
 

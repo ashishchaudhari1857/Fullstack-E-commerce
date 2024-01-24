@@ -7,6 +7,7 @@ import  {addTocart ,getCartProducts}  from  '../../api/cartApis';
 import Cards from '../commonAccounts/cards';
 import {getcartsProducts} from '../../redux/slices/cartSlice'
 
+
 function ProductStore() {
     const dispatch = useDispatch();
     const products = useSelector((state) => state.AdminProductsManager.products);
@@ -43,7 +44,7 @@ function ProductStore() {
       };
 
        // add to cart
-        const AddToCart= async(id)=>{
+        const AddToCart= async(id ,cartId)=>{
                try {
                 const data =await addTocart(id ,cartId);
                 const totolData=await getCartProducts(cartId);
@@ -58,7 +59,7 @@ function ProductStore() {
               console.log("in thes buty")
         }
       const data = products?.map((item ,index)=>(
-        <Cards data={item} key={index} AddToCart={()=>AddToCart(item.id)} BuyProduct={()=>BuyProduct(item.id)}></Cards>
+        <Cards data={item} key={index} AddToCart={()=>AddToCart(item.id ,cartId)} BuyProduct={()=>BuyProduct(item.id)}></Cards>
       ))
   return (
     <div>{loading?"loading" : data}</div>
