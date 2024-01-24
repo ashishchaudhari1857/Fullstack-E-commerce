@@ -121,7 +121,7 @@ function Login() {
                 
                 {loading? "login.....":"login"}
               </button>
-              <NavLink  className="font-serif text-center hover:text-green-700" to="/forget"> forget password</NavLink>
+              <NavLink  className="font-serif text-center hover:text-green-700" to="/forgetpassword"> forget password</NavLink>
           </form>
           <div className="flex items-center justify-center mt-5 text-center md:mt-5" style={{ fontFamily: "cursive" }}>
             Don't have an account? <NavLink to="/signup"  className="text-blue-500">SignUp</NavLink>
