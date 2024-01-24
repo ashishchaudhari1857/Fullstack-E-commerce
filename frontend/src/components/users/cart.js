@@ -70,7 +70,7 @@ function Cart({ visible, close }) {
           <span>Item</span><span> quantity</span>
         </h1>
         <hr></hr>
-        <div className='overflow-y-scroll '>
+        <div className='overflow-y-scroll  h-[60vh] '>
           {result?.length===0? <div  className='flex items-center h-80  font-serif text-xl font-semibold justify-center flex-col text-black'>
             <span>No item Present In your  Cart </span> <span className='font-mono capitalize'><NavLink to='/' onClick={close}> start shopping</NavLink></span></div>:result}
         </div>
