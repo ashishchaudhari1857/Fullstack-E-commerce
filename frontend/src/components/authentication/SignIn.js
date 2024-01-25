@@ -63,7 +63,7 @@ function Login() {
           <div
             onClick={() => dispatch(setShowLoginForm())}
             style={{ fontFamily: "cursive" }}
-            className="absolute font-bold font-cursive w-36 shadow-3xl top-[46%] left-[10%] rounded-md bg-[rgba(255, 255, 255, 0.2)] text-green-300 block md:hidden transition-transform transform hover:scale-110 hover:bg-yellow-400 hover:text-white cursor-pointer"
+            className="absolute font-bold font-cursive w-36 shadow-3xl top-[46%] left-[10%] rounded-md bg-[rgba(255, 255, 255, 0.2)] text-green-300 block md:hidden transition-transform transform hover:scale-110 hover:bg-yellow-400 hover:text-white cursor-pointer animate-bounce "
           >
             Click here to login
           </div>
@@ -116,10 +116,12 @@ function Login() {
 
               <button
                 type="submit"
-                className="bg-blue-500  text-xl  w-[30%] m-auto mt-4 rounded-lg flex justify-center items-center hover:bg-green-400"
-              >
-                
-                {loading? "login.....":"login"}
+                className={`bg-red-400  text-lg p-1  ${loading?"w-[40%] ":"w-[30%]"} w-[30%] m-auto mt-4 rounded-lg flex justify-center items-center hover:bg-green-400`}
+          >
+                  {loading ? <div className="flex items-center justify-center ">
+                 <div className="w-5 h-5 md:h-3 md:w-3  border-b-2 border-black rounded-full animate-spin "></div>
+               <span className="ml-2 font-mono p-1  text-sm hidden md:block">login....</span>
+                      </div>:"login "} 
               </button>
               <NavLink  className="font-serif text-center hover:text-green-700" to="/forgetpassword"> forget password</NavLink>
           </form>

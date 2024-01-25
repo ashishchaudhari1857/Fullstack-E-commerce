@@ -5,9 +5,11 @@ const ResetPassword = () => {
   const [email, setEmail] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [error, setError] = useState(null);
+  const [loading ,setLoading]=useState(false);
   const navigate=useNavigate();
 
   const handleResetPassword = async () => {
+    setLoading(true)
     try {
          const obj={
             email:email,
@@ -24,6 +26,8 @@ const ResetPassword = () => {
       }
     } catch (error) {
       setError(error.response.data.message);
+    }finally{
+      setLoading(false)
     }
   };
 
@@ -33,7 +37,7 @@ const ResetPassword = () => {
         <h2 className="text-2xl font-bold mb-4 text-center capitalize text-blue-500 font-sans">Reset Password</h2>
 
 
-        {error && <div className="text-red-500 mb-4 font-serif">{error}</div>}
+        {error && <div className="text-red-500 mb-4  text-center font-serif">{error}</div>}
 
         <label className="block mb-2 font-serif" htmlFor="email">
           Email:
@@ -68,8 +72,11 @@ const ResetPassword = () => {
           className="bg-cyan-blue text-black   bg-blue-500  py-1 px-4 rounded font-mono  font-semibold hover:bg-cyan-500"
           onClick={handleResetPassword}
         >
-          Reset Password
-       
+
+           {loading ? <div className="flex items-center justify-center text-center">
+          <div className="w-5 h-5 border-b-2 border-black rounded-full animate-spin"></div>
+         <span className="ml-2 font-mono">Reseting......</span>
+           </div>:'  Reset Password'}
         </button>
        </div>
       </div>

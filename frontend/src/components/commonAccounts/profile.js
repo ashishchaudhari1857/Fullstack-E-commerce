@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import axios from "axios";
 import { PiUserCircleFill } from "react-icons/pi";
+import { useNavigate } from 'react-router-dom';
 
 function Profile() {
   // State variables
@@ -13,7 +14,7 @@ function Profile() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState(null);
-
+   const navigate=useNavigate();
   // Ref for file input
   const fileInputRef = useRef(null);
 
@@ -61,7 +62,11 @@ function Profile() {
   const handleEditToggle = () => {
     setIsEditing(!isEditing);
   };
-
+  const back = () => {
+    console.log('Navigating back...');
+    navigate('/');
+  };
+  
   // Submit profile update
   const submitHandler = async (e) => {
     setLoading(true);
@@ -91,7 +96,7 @@ function Profile() {
       setLoading(false);
     }
   };
-
+  console.log(isEditing)
   return (
     <div className="flex flex-col items-center justify-center min-h-screen mb-9 md:flex-row md:justify-around">
       {/* Profile Image Section */}
@@ -257,7 +262,6 @@ function Profile() {
           <div className="flex justify-end gap-10"> 
             <button
               onClick={handleEditToggle}
-
               type="button"
               className={`px-4 py-2   text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue`}
 
@@ -265,11 +269,12 @@ function Profile() {
                {isEditing ? "Cancel" : "Edit Profile"}
             </button>
             <button
-             disabled={!isEditing}
-              type="submit"
+             onClick={(e) => (isEditing ? submitHandler(e) : back())}
+             type={isEditing?"submit":"button"}
               className={`px-4 py-2   text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue`}
             >
-              {loading ? "Saving..... " : " Save"}
+                {isEditing ? <span> {loading ? "Saving..... " : " Save"} </span>: "Back"}
+             
             </button>
           </div>
         </form>

@@ -11,7 +11,7 @@ function Navbar() {
   const handleclose =(e)=>setShowCart(false);
   return (
     <>
-    <div className='flex justify-around items-center p-[0.2rem] bg-black'>
+    <div className='flex justify-around items-center p-[0.2rem] bg-black w-full fixed z-10 top-0'>
       <NavLink to ="/"><img src='logo.svg' className='rounded-sm w-10 h-15 bg-black' alt='loading'></img></NavLink>
       <Searchbar />
       <NavLink to="/profile" className='text-white font-bold  font-mono py-2  hover:text-yellow-300  '  >

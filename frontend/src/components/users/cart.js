@@ -21,7 +21,7 @@ function Cart({ visible, close }) {
   const fetchData = async () => {
     dispatch(setLoading(true));
     try {
-      dispatch(setLoading(true));
+     
       const data = await getCartProducts(cartId);
       dispatch(getcartsProducts(data));
     } catch (error) {
@@ -44,16 +44,17 @@ function Cart({ visible, close }) {
       document.body.style.overflow = 'unset';
     };
   }, [visible ,dispatch]);
-
+    
   const handleFetchError = (error) => {
     if (error.response) {
-      setError(error.response.data.message);
+      dispatch(setError(error.response.data.message));  
     } else if (error.request) {
-      setError('Network error. Please try again.');
+      dispatch(setError('Network error. Please try again.'));
     } else {
-      setError('An unexpected error occurred. Please try again.');
+      dispatch(setError('An unexpected error occurred. Please try again.'));  
     }
   };
+  
 
   if (!visible) return null;
 
@@ -71,8 +72,8 @@ function Cart({ visible, close }) {
         </h1>
         <hr></hr>
         <div className='overflow-y-scroll  h-[60vh] '>
-          {result?.length===0? <div  className='flex items-center h-80  font-serif text-xl font-semibold justify-center flex-col text-black'>
-            <span>No item Present In your  Cart </span> <span className='font-mono capitalize'><NavLink to='/' onClick={close}> start shopping</NavLink></span></div>:result}
+          {result?.length===0?( error ? <div className='text-red-600 capitalize mt-[35%] text-xl  text-center font font-semibold  font-mono justify-center flex items-center'>something went! wrong Please try again</div> :<div  className='flex items-center h-80  font-serif text-xl font-semibold justify-center flex-col text-black'>
+            <span>No item Present In your  Cart </span> <span className='font-mono capitalize'><NavLink to='/' onClick={close}> start shopping</NavLink></span></div> ):result}
         </div>
         <div className={`m-1 ml-5 text-xl text-black    ${result?.length===0 ?"hidden":"block"}`} > 
           <h1 ><span className='font-serif font-bold'>TotalItems:</span><span className='m-1 font-semibold text-gray-500 ' >{totalItems}</span></h1>

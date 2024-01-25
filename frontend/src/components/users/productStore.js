@@ -6,6 +6,8 @@ import {GetAllProducts}  from '../../api/productApi'
 import  {addTocart ,getCartProducts}  from  '../../api/cartApis';
 import Cards from '../commonAccounts/cards';
 import {getcartsProducts} from '../../redux/slices/cartSlice'
+import toast, { Toaster } from "react-hot-toast";
+import { NavLink } from 'react-router-dom';
 
 
 function ProductStore() {
@@ -19,7 +21,7 @@ function ProductStore() {
     const fetchData = async () => {
         dispatch(setLoading(true))
          try {
-          dispatch(setLoading(true));
+         
            const  data =await GetAllProducts();
           dispatch(getProducts(data));
         } catch (error) {
@@ -35,23 +37,32 @@ function ProductStore() {
 
       const handleFetchError = (error) => {
         if (error.response) {
-          setError(error.response.data.message);
+          toast.error(error.response.data.message)
+           dispatch( setError(error.response.data.message))
         } else if (error.request) {
-          setError('Network error. Please try again.');
+          toast.error("Network error. Please try again.")
+         dispatch( setError("Network error. Please try again."))
+          
         } else {
-          setError('An unexpected error occurred. Please try again.');
+          toast.error("An unexpected error occurred. Please try again.")
+          dispatch(setError("An unexpected error occurred. Please try again."))
         }
       };
 
        // add to cart
         const AddToCart= async(id ,cartId)=>{
+          const toastId=toast.loading("processing.....")
                try {
+                
                 const data =await addTocart(id ,cartId);
                 const totolData=await getCartProducts(cartId);
                 dispatch(getcartsProducts(totolData))
+                toast.success("item added Succesfully")
                } catch (error) {
                 handleFetchError(error);
-                } 
+                } finally {
+                  toast.dismiss(toastId); // Dismiss the loading toast
+                }
               }
         
         
@@ -62,8 +73,35 @@ function ProductStore() {
         <Cards data={item} key={index} AddToCart={()=>AddToCart(item.id ,cartId)} BuyProduct={()=>BuyProduct(item.id)}></Cards>
       ))
   return (
-    <div>{loading?"loading" : data}</div>
+    
+   <>
+      {loading ? (
+        <div className="flex items-center justify-center h-screen text-center">
+          <div className="w-5 h-5 border-b-2 border-black rounded-full animate-spin"></div>
+          <span className="ml-2 font-mono text-md">loading......</span>
+        </div>
+      ) : data?.length === 0 ? (
+        <div className="flex items-center text-xl h-screen justify-center mt-5 font-mono font-bold text-red-600 capitalize">
+          <h1>{error ? "Something Went wrong! Please  Try  again" :<div> <h1>No Product for Sell</h1> </div>} </h1>{" "}
+        </div>
+      ) : (
+        <div>
+          <h2 className="m-5 mb-4 text-2xl font-bold text-center text-gray-700">
+          Unbox Happiness, Unleash Style
+          </h2>
+          <ul className="grid grid-cols-1 gap-2 gap-y-10 md:grid-cols-2 lg:grid-cols-4">
+            {data}
+          </ul>
+        </div>
+      )}
+
+<Toaster />
+    </>
   )
 }
 
 export default ProductStore
+
+
+ 
+  
