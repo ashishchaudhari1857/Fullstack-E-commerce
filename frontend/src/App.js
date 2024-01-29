@@ -10,6 +10,7 @@ import AdminProducts from './components/admin/adminProducts';
 import ProductStore from './components/users/productStore';
 import Navbar from './components/users/navbar';
 import ResetPassword from './components/commonAccounts/forgotPassword';
+import ProductDetail from './components/commonAccounts/ProductDetail';
 function App() {
  
 const  role = useSelector((state)=>state.Auth.role)
@@ -29,7 +30,7 @@ const  token = useSelector((state)=>state.Auth.role)
       { role==="user" &&   <Route path ='/' element={<ProductStore></ProductStore>}></Route>  }
 
     { token &&  < Route  path='/profile' element={<Profile></Profile>}></Route>}
-
+    { token &&  < Route  path='/product_details/:productId' element={<ProductDetail></ProductDetail>}></Route>}
       {role==="admin"  &&   <Route  path='/addproduct' element={<AddProduct></AddProduct>}></Route>}
       {role==="admin"  &&   <Route  path='/' element={<AdminProducts></AdminProducts>}></Route>}
       </Routes>

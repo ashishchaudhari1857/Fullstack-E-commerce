@@ -1,4 +1,6 @@
  import axios from 'axios'
+
+ //  finding proudcts of particular   user
  export   const GetProducts = async (userId) => {
     try {
       const response = await axios.get(`/api/product/admin/getproducts/${userId}`);
@@ -8,7 +10,7 @@
     }
   }
 
-// delete
+// delete   product by admin
   export   const DeleteProduct = async (id ,userId)  => {
     try {
       const response = await axios.delete(`/api/product/delete/${userId}/${id}`);
@@ -17,7 +19,7 @@
       throw error;
     }
   }
-  //update
+  //update  the status of a product
 
   export   const UpdateProduct = async (id ,formData ,userId) => {
     try {
@@ -33,6 +35,15 @@
   export   const GetAllProducts = async () => {
     try {
       const response = await axios.get(`/api/product/`);
+       return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+  //Get  single Product Api
+  export   const GetProduct = async (productId) => {
+    try {
+      const response = await axios.get(`/api/product/${productId}`);
        return response.data;
     } catch (error) {
       throw error;

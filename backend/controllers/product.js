@@ -142,6 +142,7 @@ const getSingleProduct = async (req, res) => {
   const id = parseInt(req.params.id);
   try {
     const product =await Products.findOne({where:{id} ,include:[Review]})
+    if(!product)  throw new NotFound("No product with that ID");
        res.status(200).json(product)
   } catch (err) {
     return res.status(400).json("Invalid ID");

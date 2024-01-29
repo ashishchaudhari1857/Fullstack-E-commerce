@@ -110,6 +110,8 @@ function Profile() {
         ) : (
           <PiUserCircleFill className="w-40 h-40 text-center text-gray-500"></PiUserCircleFill>
         )}
+       
+        <h2 className="font-medium text-center text-black">{data?.username}</h2>
         <h2 className="font-medium text-center">{data?.bio}</h2>
       </div>
       {/*   form section  */}

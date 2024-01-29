@@ -20,6 +20,7 @@ const register = async (req, res) => {
         userId: user.id,
         email,
         role,
+        username,
       });
     let cart;
     let cartId;
